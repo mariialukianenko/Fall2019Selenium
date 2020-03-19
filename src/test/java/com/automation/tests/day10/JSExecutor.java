@@ -3,8 +3,10 @@ package com.automation.tests.day10;
 import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.DriverFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
@@ -46,5 +48,13 @@ public class JSExecutor {
     }
 
 
+    @Test
+    public void scrollToElementTest(){
+        driver.get("http://practice.cybertekschool.com/");
+        driver.manage().window().maximize();
+        BrowserUtils.wait(2);
+        WebElement link = driver.findElement(By.linkText("Cybertek School"));
+        driver.executeScript("arguments[0].scrollIntoView(true)", link);
+    }
 
 }
