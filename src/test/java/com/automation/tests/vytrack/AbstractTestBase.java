@@ -26,6 +26,7 @@ public abstract class AbstractTestBase {
 
     @AfterMethod
     public void teardown(){
+
         Driver.closeDriver();
     }
 
