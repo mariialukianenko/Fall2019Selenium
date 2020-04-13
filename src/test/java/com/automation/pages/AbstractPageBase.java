@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,33 +18,31 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * We cannot really create a dedicated page class to store
  * elements from that menu
  */
-
-public class AbstractPageBase {
-
+public abstract class AbstractPageBase {
     protected WebDriver driver = Driver.getDriver();
-    protected WebDriverWait wait = new WebDriverWait(driver, 15);
+    protected WebDriverWait wait = new WebDriverWait(driver, 25);
 
     @FindBy(css = "#user-menu > a")
     protected WebElement currentUser;
 
+    public AbstractPageBase() {
+        PageFactory.initElements(driver, this);
+    }
+
 
     public String getCurrentUserName(){
-        BrowserUtils.waitForPageToLoad(15);
+        BrowserUtils.waitForPageToLoad(10);
         wait.until(ExpectedConditions.visibilityOf(currentUser));
         return currentUser.getText().trim();
     }
 
-
-    public AbstractPageBase(){
-        PageFactory.initElements(driver, this);
-    }
 
     /**
      * Method for vytrack navigation. Provide tab name and module name to navigate
      * @param tabName, like Dashboards, Fleet or Customers
      * @param moduleName, like Vehicles, Vehicles Odometer and Vehicles Costs
      */
-    public void navigateTo(String tabName, String moduleName){
+    public void navigateTo(String tabName, String moduleName) {
         String tabNameXpath = "//span[@class='title title-level-1' and contains(text(),'" + tabName + "')]";
         String moduleXpath = "//span[@class='title title-level-2' and text()='" + moduleName + "']";
 
@@ -61,7 +58,7 @@ public class AbstractPageBase {
                 click(moduleElement).
                 build().perform();
 
+        //increase this wait rime if still failing
         BrowserUtils.wait(4);
     }
-
 }
